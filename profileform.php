@@ -15,7 +15,7 @@ session_start();
 <body>
 
 <div class="container">
-    <h1 class="text-center">
+    <h1 class="text-center mt-3">
         Profile Form
     </h1>
     <form action="" method="post">
