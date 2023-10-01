@@ -1,3 +1,7 @@
+<?php 
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,21 +27,21 @@
         </div>
     
         <div class="container w-50 p-4 mt-5 border" id="signin-container">
-            <form action="profileform.php">
+            <form action="" method="post">
                 <div class="form-group">
                     <label for="signin-mail">Mail Id</label>
                     <input type="text" class="form-control mb-3" id="signin-mail" name="signin-mail" placeholder="Mail Id">
                 </div>
                 <div class="form-group">
                     <label for="signin-pass">Password</label>
-                    <input type="password" class="form-control mb-3" id="signin-pass" name="signin-pass" placeholder="Password">
+                    <input type="password" class="form-control mb-3" id="signin-pass" name="signinpass" placeholder="Password">
                 </div>
                 <button type="submit" class="m-auto w-50 d-block btn my-3 btn-success">Sign In</button>
             </form>
         </div>
 
         <div class="container w-50 p-4 mt-5 border" style="display: none;" id="signup-container">
-            <form action="profileform.php">
+            <form action="" method="post">
                 <div class="form-group">
                     <label for="signup-mail">Mail Id</label>
                     <input type="text" class="form-control mb-3" id="signup-mail" name="signup-mail" placeholder="Mail Id">
@@ -50,7 +54,7 @@
                     <label for="signup-cpass">Confirm Password</label>
                     <input type="password" class="form-control mb-3" id="signup-cpass" name="signup-cpass" placeholder="Confirm Password">
                 </div>
-                <button type="submit" class="m-auto d-block w-50 btn my-3 btn-success">Sign Up</button>
+                <button type="submit" name="register" class="m-auto d-block w-50 btn my-3 btn-success">Sign Up</button>
             </form>
         </div>
     </div>
@@ -83,6 +87,53 @@
             }
         }
     </script>
+
+    <?php
+        include ("dbconfig.php");
+
+        if (isset($_POST['register']))
+        {
+            $signupMail = $_POST["signup-mail"];
+            $signupPass = $_POST["signup-pass"];
+            $signupCPass = $_POST["signup-cpass"];
+
+            if ($signupPass == $signupCPass)
+            {
+                $query1 = "INSERT INTO password_manager (email, passwrd) VALUES ('$signupMail', '$signupPass')";
+                mysqli_query($db, $query1);
+            }
+
+        }
+        if (isset($_POST['loging']))
+        {       
+            $signinMail = mysqli_real_escape_string($db, $_POST['signin-mail']);
+            $signinPass = mysqli_real_escape_string($db, $_POST['signinpass']);
+
+            $query1 = "SELECT * from password_manager WHERE email='$signinMail' and passwrd='$signinPass'";
+            $result = mysqli_query($db, $query1);
+
+            // $row = mysqli_fetch_array($result, MYSQLI_ASSOC);  
+            // $count = mysqli_num_rows($result);  
+            
+            // if($count == 1){  
+            //     echo "<h1><center> Login successful </center></h1>";  
+            // }  
+            // else{  
+            //     echo "<h1> Login failed. Invalid username or password.</h1>";  
+            // }  
+
+            // if ($result)
+            // {
+            //     $_SESSION['usermail'] = $signinMail;
+            //     header("location: profileform.php");
+            // }
+            // else
+            // {
+            //     echo "Invalid mail or password";
+            // }
+
+        }
+    ?>
 
 </body>
 </html>
