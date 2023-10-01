@@ -1,3 +1,8 @@
+
+<?php 
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +18,7 @@
     <h1 class="text-center mt-3">
         Profile Form
     </h1>
-    <form action="">
+    <form action="" method="post">
         <div class="form-group my-3">
             <label for="namee">Name</label>
             <input type="text" name="namee" class="form-control" required id="namee">
@@ -36,19 +41,19 @@
                     <td><input type="text" name="degree1" class="form-control" required id="degree1" placeholder="Degree"></td>
                     <td><input type="text" name="university-college" placeholder="University/College Name"  class="form-control" required id="university-college"></td>
                     <td><input type="text" class="form-control" name="yop1" id="yop1" placeholder="year" required></td>
-                    <td><input type="text" class="form-control" id="percent" name="cgpa-percent" required placeholder="CGPA/Percentage"></td>
+                    <td><input type="text" class="form-control" id="percent1" name="percent1" required placeholder="CGPA/Percentage"></td>
                 </tr>
                 <tr>
                     <td><input type="text" name="degree2" class="form-control" required id="degree2" placeholder="Degree"></td>
-                    <td><input type="text" name="school1" placeholder="School Name"  class="form-control" required id="school1"></td>
+                    <td><input type="text" name="school2" placeholder="School Name"  class="form-control" required id="school1"></td>
                     <td><input type="text" class="form-control" name="yop2" id="yop2" placeholder="year" required></td>
-                    <td><input type="text" class="form-control" id="percent2" name="cgpa-percent" required placeholder="CGPA/Percent"></td>
+                    <td><input type="text" class="form-control" id="percent2" name="percent2" required placeholder="CGPA/Percent"></td>
                 </tr>
                 <tr>
                     <td><input type="text" name="degree3" class="form-control" required id="degree3" placeholder="Degree"></td>
-                    <td><input type="text" name="school2" placeholder="School Name"  class="form-control" required id="school2"></td>
-                    <td><input type="text" class="form-control" name="yop3" id="yop3" placeholder="year" required></td>
-                    <td><input type="text" class="form-control" id="percent3" name="cgpa-percent" required placeholder="CGPA/Percentage"></td>
+                    <td><input type="text" name="school3" placeholder="School Name"  class="form-control" required id="school2"></td>
+                    <td><input type="text" name="yop3" class="form-control" id="yop3" placeholder="year" required></td>
+                    <td><input type="text" name="percent3" class="form-control" id="percent3"  required placeholder="CGPA/Percentage"></td>
                 </tr>
             </tbody>
         </table>
@@ -94,11 +99,69 @@
         </div>
         <div class="form-group my-3">
             <label for="photo">Profile Picture</label>
-            <input type="file" required class="form-control-file" id="photo">
+            <input type="file" required class="form-control-file" name="photo" id="photo">
         </div>
-        <button type="submit" class="btn my-3 btn-primary">Submit</button>
+        <button type="submit" class="btn my-3 btn-primary" name="createResume">Submit</button>
     </form>
 </div>
 
 </body>
 </html>
+
+<?php
+
+include("dbconfig.php");
+
+if(isset($_POST['createResume'])){
+
+    // Profile
+
+    $name = $_POST['namee']; $discipline = $_POST['displine-degree'];
+    $description = $_POST['desc']; $userid = $_SESSION['userid'];
+
+    // Image
+
+    $filename = $_FILES['photo']['name'];
+    $tempname = $_FILES['photo']['tmp_name'];
+    $path = "assets/images/". $filename;
+    move_uploaded_file($tempname,$path);
+
+    $query1 = "INSERT INTO profile(userid, name, discipline, description, image) 
+                VALUES ('$userid','$name','$discipline','$description','$filename')";
+    mysqli_query($db, $query1);
+    
+    // Education
+
+    $qualone = $_POST['degree1']; $unione = $_POST['school1']; $yearone = $_POST['yop1']; $perone = $_POST['percent1'];
+    $qualtwo = $_POST['degree2']; $unitwo = $_POST['school2']; $yeartwo = $_POST['yop2']; $pertwo = $_POST['percent2'];
+    $qualthree = $_POST['degree3']; $unithree = $_POST['school3']; $yearthree = $_POST['yop3']; $perthree = $_POST['percent3'];
+    
+    $query2 = "INSERT INTO education (userid, qualone, unione, yearone, perone, qualtwo, unitwo, yeartwo, pertwo ,
+                qualthree , unithree ,yearthree , perthree) 
+                VALUES ('$userid','$qualone','$unione','$yearone','$perone','$qualtwo','$unitwo',
+                '$yeartwo','$pertwo','$qualthree','$unithree','$yearthree','$perthree')";
+    
+    mysqli_query($db,$query2);
+
+    // skills and experience and language
+
+    $skillone = $_POST['skill1']; $skilltwo = $_POST['skill2']; $skillthree = $_POST['skill3'];
+    $lanone = $_POST['lang1']; $lantwo = $_POST['lang2']; 
+    $experience = $_POST['experience1'];
+
+    $query3 = "INSERT INTO others (userid, skillone, skilltwo, skillthree, lanone, lantwo, experience) 
+                VALUES ('$userid','$skillone','$skilltwo','$skillthree','$lanone','$lantwo','$experience')";
+    
+    mysqli_query($db,$query3);
+
+    // Contact
+    $phno = $_POST['phone']; $email = $_POST['email']; $linkedin = $_POST['linkedin'];
+    
+    $query4 = "INSERT INTO contact(userid, phno, email, linkedin) 
+    VALUES ('$userid','$phno','$email','$linkedin')";
+
+    mysqli_query($db,$query4);
+
+}
+
+?>
