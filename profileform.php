@@ -40,20 +40,20 @@ session_start();
                 <tr>
                     <td><input type="text" name="degree1" class="form-control" required id="degree1" placeholder="Degree"></td>
                     <td><input type="text" name="university-college" placeholder="University/College Name"  class="form-control" required id="university-college"></td>
-                    <td><input type="text" class="form-control" name="yop1" id="yop1" placeholder="year" required></td>
-                    <td><input type="text" class="form-control" id="percent1" name="percent1" required placeholder="CGPA/Percentage"></td>
+                    <td><input type="number" class="form-control" name="yop1" id="yop1" placeholder="year" required></td>
+                    <td><input type="number" max="100" class="form-control" id="percent1" name="percent1" required placeholder="CGPA/Percentage"></td>
                 </tr>
                 <tr>
                     <td><input type="text" name="degree2" class="form-control" required id="degree2" placeholder="Degree"></td>
                     <td><input type="text" name="school2" placeholder="School Name"  class="form-control" required id="school1"></td>
-                    <td><input type="text" class="form-control" name="yop2" id="yop2" placeholder="year" required></td>
-                    <td><input type="text" class="form-control" id="percent2" name="percent2" required placeholder="CGPA/Percent"></td>
+                    <td><input type="number" class="form-control" name="yop2" id="yop2" placeholder="year" required></td>
+                    <td><input type="number" max="100" class="form-control" id="percent2" name="percent2" required placeholder="CGPA/Percent"></td>
                 </tr>
                 <tr>
                     <td><input type="text" name="degree3" class="form-control" required id="degree3" placeholder="Degree"></td>
                     <td><input type="text" name="school3" placeholder="School Name"  class="form-control" required id="school2"></td>
-                    <td><input type="text" name="yop3" class="form-control" id="yop3" placeholder="year" required></td>
-                    <td><input type="text" name="percent3" class="form-control" id="percent3"  required placeholder="CGPA/Percentage"></td>
+                    <td><input type="number" name="yop3" class="form-control" id="yop3" placeholder="year" required></td>
+                    <td><input type="number" max="100" name="percent3" class="form-control" id="percent3"  required placeholder="CGPA/Percentage"></td>
                 </tr>
             </tbody>
         </table>
