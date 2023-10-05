@@ -36,7 +36,7 @@ session_start();
                     <label for="signin-pass">Password</label>
                     <input type="password" class="form-control mb-3" id="signin-pass" name="signinpass" placeholder="Password">
                 </div>
-                <button type="submit" class="m-auto w-50 d-block btn my-3 btn-success">Sign In</button>
+                <button type="submit" name="loging" class="m-auto w-50 d-block btn my-3 btn-success">Sign In</button>
             </form>
         </div>
 
@@ -100,7 +100,14 @@ session_start();
             if ($signupPass == $signupCPass)
             {
                 $query1 = "INSERT INTO password_manager (email, passwrd) VALUES ('$signupMail', '$signupPass')";
-                mysqli_query($db, $query1);
+                if (mysqli_query($db, $query1))
+                {
+                    echo "Successfully sign up";
+                }
+                else
+                {
+                    echo "Something went wrong";
+                }
             }
 
         }
@@ -111,27 +118,17 @@ session_start();
 
             $query1 = "SELECT * from password_manager WHERE email='$signinMail' and passwrd='$signinPass'";
             $result = mysqli_query($db, $query1);
+            $row = mysqli_fetch_assoc($result);
+            $count = mysqli_num_rows($result);
 
-            // $row = mysqli_fetch_array($result, MYSQLI_ASSOC);  
-            // $count = mysqli_num_rows($result);  
-            
-            // if($count == 1){  
-            //     echo "<h1><center> Login successful </center></h1>";  
-            // }  
-            // else{  
-            //     echo "<h1> Login failed. Invalid username or password.</h1>";  
-            // }  
-
-            // if ($result)
-            // {
-            //     $_SESSION['usermail'] = $signinMail;
-            //     header("location: profileform.php");
-            // }
-            // else
-            // {
-            //     echo "Invalid mail or password";
-            // }
-
+            if($count==1)
+            {
+                echo "Successfully Logged in";
+            }
+            else
+            {
+                echo "User not found <a href=''>signup</a> here";
+            }
         }
     ?>
 
