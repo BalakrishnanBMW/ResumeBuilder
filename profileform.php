@@ -1,6 +1,12 @@
 
 <?php 
 session_start();
+
+if(!isset($_SESSION["userid"]))
+{
+    header("location:sign.php");
+    $_SESSION["error"] = "userid not set";
+}
 ?>
 
 <!DOCTYPE html>
