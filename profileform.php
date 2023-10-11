@@ -18,7 +18,7 @@ session_start();
     <h1 class="text-center mt-3">
         Profile Form
     </h1>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <div class="form-group my-3">
             <label for="namee">Name</label>
             <input type="text" name="namee" class="form-control" required id="namee">
@@ -39,7 +39,7 @@ session_start();
             <tbody>
                 <tr>
                     <td><input type="text" name="degree1" class="form-control" required id="degree1" placeholder="Degree"></td>
-                    <td><input type="text" name="university-college" placeholder="University/College Name"  class="form-control" required id="university-college"></td>
+                    <td><input type="text" name="school1" placeholder="University/College Name"  class="form-control" required id="school1"></td>
                     <td><input type="number" class="form-control" name="yop1" id="yop1" placeholder="year" required></td>
                     <td><input type="number" max="100" class="form-control" id="percent1" name="percent1" required placeholder="CGPA/Percentage"></td>
                 </tr>
@@ -99,14 +99,11 @@ session_start();
         </div>
         <div class="form-group my-3">
             <label for="photo">Profile Picture</label>
-            <input type="file" required class="form-control-file" name="photo" id="photo">
+            <input type="file" class="form-control-file" name="photo" id="photo">
         </div>
         <button type="submit" class="btn my-3 btn-primary" name="createResume">Submit</button>
     </form>
 </div>
-
-</body>
-</html>
 
 <?php
 
@@ -121,11 +118,10 @@ if(isset($_POST['createResume'])){
 
     // Image
 
-    $filename = $_FILES['photo']['name'];
-    $tempname = $_FILES['photo']['tmp_name'];
+    $filename = $_FILES["photo"]["name"];
+    $tempname = $_FILES["photo"]["tmp_name"];
     $path = "assets/images/". $filename;
     move_uploaded_file($tempname,$path);
-
     $query1 = "INSERT INTO profile(userid, name, discipline, description, image) 
                 VALUES ('$userid','$name','$discipline','$description','$filename')";
     mysqli_query($db, $query1);
@@ -165,3 +161,6 @@ if(isset($_POST['createResume'])){
 }
 
 ?>
+
+</body>
+</html>
